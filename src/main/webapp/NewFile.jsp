@@ -1,3 +1,4 @@
+<%@ page import="com.simplilearn.workshop.utils.*" %>
 <%@ page import="java.sql.*" %>
 <%ResultSet resultset =null;%>
 
@@ -11,23 +12,22 @@
 <%
     try{
 //Class.forName("com.mysql.jdbc.Driver").newInstance();
-Connection connection = 
+/* Connection connection = 
          DriverManager.getConnection
             ("jdbc:mysql://localhost/pgfsd_flyaway?user=root&password=p01amiss");
-
-       Statement statement = connection.createStatement() ;
+ */
+ 	   Connection connection = MySQLDatabaseUtils.getConnection();
+ 	   Statement statement = connection.createStatement() ;
 
        resultset =statement.executeQuery("select city_name from places") ;
 %>
 
-<center>
     <h1> Drop down box or select element</h1>
-        <select>
+        <select name="city" id="city">
         <%  while(resultset.next()){ %>
             <option><%= resultset.getString(1)%></option>
         <% } %>
         </select>
-</center>
 
 <%
 //**Should I input the codes here?**
