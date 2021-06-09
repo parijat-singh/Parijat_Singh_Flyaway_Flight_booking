@@ -24,7 +24,7 @@ public class adminActionServlet extends HttpServlet {
        
 	private static final String SELECT_SQL_AL= "SELECT * FROM airlines";
 	private static final String SELECT_SQL_PL= "SELECT * FROM places";
-	private static final String SELECT_SQL_FL= "SELECT * FROM flights";
+	private static final String SELECT_SQL_FL= "SELECT * FROM flights where start_datetime > current_timestamp order by start_datetime";
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
@@ -40,12 +40,9 @@ public class adminActionServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("admindAction", adminAction);
 		
-		
-			//ResultSet rs_PL = statement1.executeQuery(SELECT_SQL_PL);
-			//ResultSet rs_FL = statement1.executeQuery(SELECT_SQL_FL);
 			out.println("<html>");
 			out.println("<head>");
-			out.println("<title>welcome</title>");
+			out.println("<title>Action Results</title>");
 			out.println("</head>");
 			out.println("<body>");
 			if (adminAction == null) {
