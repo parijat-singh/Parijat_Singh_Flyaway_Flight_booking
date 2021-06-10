@@ -1,4 +1,4 @@
-<%@page import="com.simplilearn.project.getFlightPrice"%>
+<%@page import="com.simplilearn.project.getFlightInfo"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -9,38 +9,48 @@
 </head>
 <body>
 <%
-	String flightId = request.getParameter("flightSelection");
+String flightId = request.getParameter("flightSelection");
 	int numOfPassengers=(int)session.getAttribute("numOfPassengers"); 
 	session.setAttribute("numOfPassengers",numOfPassengers);
 	if (flightId == null) {
 %>
 		<h2>Error: Please make go back and make a selection</h2>
 
-	<%	
+	<%
 	} else {
-		String id = flightId.substring(6);
-		session.setAttribute("id",id);
-	
+			String id = flightId.substring(6);
+			session.setAttribute("id",id);
+			String[] selectedFlight = getFlightInfo.getFlightDetails(id);
+			%>
+			<h3>Selected Flight Details:</h3>
+			<b>Flight Number:</b> <%=selectedFlight[1] + selectedFlight[0] %><br>
+			<b>Departure Airport:</b> <%=selectedFlight[2]%> <br>
+			<b>Departure Date and time:</b> <%=selectedFlight[4].substring(0,10) + " @ " + selectedFlight[4].substring(10,16) %> <br>
+			<b>Arrival Airport:</b> <%=selectedFlight[3]%> <br>
+			<b>Arrival Date and time:</b> <%=selectedFlight[5].substring(0,10) + " @ " + selectedFlight[5].substring(10,16) %> <br>
+			<b>Ticket Price:</b> <%= "$" + selectedFlight[6]%> <br>
+			<%
 	%>
 <form action="final-confirmation.jsp" method="POST">
 <h2>Enter Passenger Details</h2>
 (All Fields are mandatory!) <br><br>
 
-<% for (int i=1; i<= numOfPassengers; i++) {
-	%> 
+<%
+for (int i=1; i<= numOfPassengers; i++) {
+%> 
 	Passenger<%=i%> Name &nbsp&nbsp&nbsp: &nbsp&nbsp <input type="text" id="passenger<%=i%>Name" name="passenger<%=i%>Name">
 	 <br>
-	Passenger<%=i %> Gender &nbsp: &nbsp
+	Passenger<%=i%> Gender &nbsp : &nbsp
 	<input type="radio" id="passenger<%=i%>Gender" name="passenger<%=i%>Gender" value ="male"><label for="male">Male</label>
 	<input type="radio" id="passenger<%=i%>Gender" name="passenger<%=i%>Gender" value ="female"> <label for="female">Female</label><br>
-	Passenger<%=i %> DOB &nbsp&nbsp&nbsp: &nbsp&nbsp <input type="date" id="dob" name="passenger<%=i%>Dob"
+	Passenger<%=i%> DOB &nbsp&nbsp&nbsp: &nbsp&nbsp <input type="date" id="dob" name="passenger<%=i%>Dob"
        value=""
        min="1920-01-01" max="2021-12-31">
        <br>
        <br>
 <%
-     }
-float totalAmount = getFlightPrice.getPrice(id) * numOfPassengers;
+}
+float totalAmount = getFlightInfo.getPrice(id) * numOfPassengers;
 session.setAttribute("totalAmount",totalAmount);
 %>
 <h3>Enter Credit Card Details</h3>

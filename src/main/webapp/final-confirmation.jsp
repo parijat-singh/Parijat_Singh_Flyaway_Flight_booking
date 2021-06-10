@@ -1,3 +1,4 @@
+<%@page import="com.simplilearn.project.getFlightInfo"%>
 <%@page import="com.simplilearn.project.makeFinalReservation"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.simplilearn.project.updateSeats"%>
@@ -13,6 +14,7 @@
 <title>Booking Confirmation</title>
 </head>
 <body>
+
 <%
 //Retreive all values passed from book-flight.jsp
 int numOfPassengers=(int)session.getAttribute("numOfPassengers"); 
@@ -75,9 +77,19 @@ if (!error){
 	String expiration = expMonth + "/" + expYear;
 	//insert a row into the booking table with reservation details and get unique reservation identifier
 	String confirmationId = makeFinalReservation.insertReservation(flightId, numOfPassengers, payerName, payerZip, ccNum, expiration, totalAmount, passengerName, passengerGender, passengerDob);
+	String[] selectedFlight = getFlightInfo.getFlightDetails(flightId);
 	%>
 	<h1> Success: Reservation Complete</h1>
 	<p> Your unique reservation identifier is <b><%=confirmationId %></b></p>
+	<h2> Reservation Details:</h2>
+	<b>Flight Number:</b> <%=selectedFlight[1] + selectedFlight[0] %><br>
+	<b>Departure Airport:</b> <%=selectedFlight[2]%> <br>
+	<b>Departure Date and time:</b> <%=selectedFlight[4].substring(0,10) + " @ " + selectedFlight[4].substring(10,16) %> <br>
+	<b>Arrival Airport:</b> <%=selectedFlight[3]%> <br>
+	<b>Arrival Date and time:</b> <%=selectedFlight[5].substring(0,10) + " @ " + selectedFlight[5].substring(10,16) %> <br>
+	<b>Number of Passengers:</b> <%= numOfPassengers%> <br>
+	<b>Amount Charged:</b> <%= "$" + totalAmount%> <br>
+	<br>
 	<br>
 	<p> Please visit <a href="/pgfsd-flyaway-project/flyaway-homepage.jsp">FlyAway</a> again to make another flight Reservation</p>
 	
