@@ -17,6 +17,7 @@
 <% String from = request.getParameter("from");
    String to = request.getParameter("to");
    int numOfPassengers = Integer.parseInt(request.getParameter("numOfPassengers"));
+   session.setAttribute("numOfPassengers",numOfPassengers); 
    String travelDate = request.getParameter("travelDate");
    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
    Date tDate = formatter.parse(travelDate);

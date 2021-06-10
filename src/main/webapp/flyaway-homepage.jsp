@@ -25,7 +25,7 @@
  	   Connection connection = MySQLDatabaseUtils.getConnection();
  	   Statement statement = connection.createStatement() ;
 
-       resultset =statement.executeQuery("select city_name from places") ;
+       resultset =statement.executeQuery("select city_name from places order by city_name") ;
 	%>
         <select name="from" id="from">
         <option> </option>
@@ -47,7 +47,7 @@
  	   Connection connection = MySQLDatabaseUtils.getConnection();
  	   Statement statement = connection.createStatement() ;
 
-       resultset =statement.executeQuery("select city_name from places") ;
+       resultset =statement.executeQuery("select city_name from places order by city_name") ;
 	%>
         <select name="to" id="to">
         <option> </option>

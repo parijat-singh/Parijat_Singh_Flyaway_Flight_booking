@@ -58,7 +58,7 @@ public class chgpwd extends HttpServlet {
 				if (newPassword.equals(confirmPassword)) {
 					statement.executeUpdate(UPDATE_SQL);
 					out.println("<h3> Success: Password updated Successfully</h3>");
-					out.println("<p> Please go back to Login Screen and login with you new password </p>");
+					out.println("<p> Please go back to <a href=\"/pgfsd-flyaway-project/admin.html\">Login Screen</a> and login with you new password </p>");
 				} else {
 					out.println("<h3> Password Mismatch</h3>");
 					out.println("<p> Passowrds don't match </p>");
