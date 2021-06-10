@@ -1,3 +1,6 @@
+<%@page import="com.simplilearn.project.makeFinalReservation"%>
+<%@page import="java.util.Date"%>
+<%@page import="com.simplilearn.project.updateSeats"%>
 <%@page import="com.simplilearn.workshop.utils.projectUtilities"%>
 <%@page import="com.simplilearn.project.checkSeatAvailability"%>
 <%@page import="java.util.regex.*"%>
@@ -26,6 +29,7 @@ for (int i=0;i<numOfPassengers;i++){
 	passengerGender[i] = (String)request.getParameter("passenger"+j+"Gender");
 	passengerDob[i] = (String)request.getParameter("passenger"+j+"Dob");
 }
+String payerEmail = request.getParameter("payerEmail");
 String payerName = request.getParameter("payerName");
 String payerZip = request.getParameter("payerZip");
 String ccNum = request.getParameter("ccNum");
@@ -35,53 +39,52 @@ for (int i=0;i<numOfPassengers;i++){
 	if (passengerName[i] == null || passengerName[i].trim() ==""|| passengerGender[i] == null || passengerDob[i] == null){
 		error = true;
 		%>
-		Error: Passenger<%=i+1 %> details incomplete.<br>
+		<b>Error:</b> Passenger<%=i+1 %> details incomplete.<br>
 		<% 
 	}
 }
 if (payerName == null || payerName.trim() =="" || payerZip == null || payerZip.trim() =="" || ccNum == null || ccNum.trim() =="" ){
 	error = true;
 	%>
-	Error: Payment details incomplete.<br>
+	<b>Error:</b> Payment details incomplete.<br>
 	<% 
 }
 if (ccNum.length() != 16 || !projectUtilities.isNumeric(ccNum)){
 	error = true;
 	%>
-	Error: Credit Card should be 16 digits and all Numeric<br>
+	<b>Error:</b> Credit Card should be 16 digits and all Numeric<br>
 	<% 
 }
 if (payerZip.length() != 5 || !projectUtilities.isNumeric(payerZip)){
 	error = true;
 	%>
-	Error: Zip code should be 5 digits and all Numeric<br>
+	<b>Error:</b> Zip code should be 5 digits and all Numeric<br>
 	<% 
 }
 int numOfSeatsAvailable = checkSeatAvailability.getSeats(flightId);
 if (numOfSeatsAvailable < numOfPassengers){
 	error = true;
 	%>
-	Error: The Seats are no longer Available, Please return to <a href="/pgfsd-flyaway-project/flyaway-homepage.jsp">Homepage</a> are restart your booking<br>
-	
+	<b>Error:</b> The Seats are no longer Available, Please return to 
+	<a href="/pgfsd-flyaway-project/flyaway-homepage.jsp">Homepage</a> and restart your booking<br>
 	<% 
+}
+if (!error){
+	//Reduce number available seats in flights table
+	updateSeats.updateAvailableSeats(flightId, numOfPassengers);
+	String expiration = expMonth + "/" + expYear;
+	//insert a row into the booking table with reservation details and get unique reservation identifier
+	String confirmationId = makeFinalReservation.insertReservation(flightId, numOfPassengers, payerName, payerZip, ccNum, expiration, totalAmount, passengerName, passengerGender, passengerDob);
+	%>
+	<h1> Success: Reservation Complete</h1>
+	<p> Your unique reservation identifier is <b><%=confirmationId %></b></p>
+	<br>
+	<p> Please visit <a href="/pgfsd-flyaway-project/flyaway-homepage.jsp">FlyAway</a> again to make another flight Reservation</p>
+	
+<%
 }
 
 %>
 
-<%=projectUtilities.isNumeric(ccNum)%><br>
-<%=numOfSeatsAvailable%><br>
-<%=passengerName[0] %><br>
-<%=passengerGender[0] %><br>
-<%=passengerDob[0] %><br>
-<%=payerName %><br>
-<%=payerZip %><br>
-<%=ccNum %><br>
-<%=expMonth %><br>
-<%=expYear %> <br>
-<%=numOfPassengers %><br>
-<%=flightId %><br>
-<%=totalAmount %><br>
-
-Booking confirmation!
 </body>
 </html>

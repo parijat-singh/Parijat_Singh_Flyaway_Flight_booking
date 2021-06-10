@@ -48,6 +48,7 @@ session.setAttribute("totalAmount",totalAmount);
 Total amount to be charged: $<%=totalAmount %>
 <br>
 <br>
+Contact Email &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: <input type="email" id="payerEmail" name="payeremail"> <br><br>
 Name on Credit Card: <input type="text" id="payerName" name="payerName"> <br><br>
 Billing Zipcode &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: <input type="text" id="payerZip" name="payerZip"> <br><br>
 Credit Card Number : <input type="text" id="ccNum" name="ccNum"> <br><br>

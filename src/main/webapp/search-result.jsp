@@ -37,6 +37,7 @@
 	<form action="book-flight.jsp" method="POST">
 	
 	  <%
+	  boolean recordsFound = false;
 	  try {
 		  	Connection connection = MySQLDatabaseUtils.getConnection();
 	 	  	Statement statement = connection.createStatement() ;
@@ -57,7 +58,11 @@
 					 + numOfPassengers;
 			 rs = statement.executeQuery(FL_QUERY) ; 
 			 %>
-			 <table border=1>
+			 
+			 <%
+			 if (rs.next()) {
+				recordsFound = true; %>
+				<table border=1>
 			   <tr>
 			     <th>Select</th>
 			     <th>Airline Name </th>
@@ -71,8 +76,9 @@
 			     <th>Price per ticket</th>
 			     <th>Number of Passengers</th>
 			  </tr>
-			 <%
-			
+			<%
+			 }
+			 rs.previous();
 			 while(rs.next()) { 
 				 int flightId = rs.getInt("id");
 				 String flightIdRadio = "flight" + flightId;
@@ -109,6 +115,12 @@
 					
 			<%
 			 }
+			 if (!recordsFound) {
+				 %>
+				 
+			     <h3> No Flights Found. Please go back and modify your search!</h3> 
+			<%
+			 }
 			 %>
 			 </table>
 			<%
@@ -120,10 +132,16 @@
 		}
 	         %>
 	<br/>
-     <br/>
-     <input type="submit" value="Book Flight" name="btnbook">
+    <br/>
+     <% if (recordsFound) {
+    	 %>
+    	  <input type="submit" value="Book Flight" name="btnbook">
+    <%
+     }
+        
+    
 	 
-<% }%>
+ }%>
 
 </form>
 </body>
