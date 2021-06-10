@@ -68,7 +68,7 @@ if (numOfSeatsAvailable < numOfPassengers){
 	error = true;
 	%>
 	<b>Error:</b> The Seats are no longer Available, Please return to 
-	<a href="/pgfsd-flyaway-project/flyaway-homepage.jsp">Homepage</a> and restart your booking<br>
+	<a href="/pgfsd-flyaway-project/index.jsp">Homepage</a> and restart your booking<br>
 	<% 
 }
 if (!error){
@@ -91,7 +91,7 @@ if (!error){
 	<b>Amount Charged:</b> <%= "$" + totalAmount%> <br>
 	<br>
 	<br>
-	<p> Please visit <a href="/pgfsd-flyaway-project/flyaway-homepage.jsp">FlyAway</a> again to make another flight Reservation</p>
+	<p> Please visit <a href="/pgfsd-flyaway-project/index.jsp">FlyAway</a> again to make another flight Reservation</p>
 	
 <%
 }
