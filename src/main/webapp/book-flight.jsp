@@ -82,7 +82,6 @@ Expiration Year&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:<select name="expYear" i
 								            <option>2022</option>
 								            <option>2023</option>
 								            <option>2024</option>
-								            <option>2024</option>
 								            <option>2025</option>
 								            <option>2026</option>
 								            <option>2027</option>
